@@ -14,6 +14,18 @@
   version = "v1.4.7"
 
 [[projects]]
+  name = "github.com/go-redis/redis"
+  packages = [".","internal","internal/consistenthash","internal/hashtag","internal/pool","internal/proto","internal/util"]
+  revision = "d22fde8721cc915a55aeb6b00944a76a92bfeb6e"
+  version = "v6.15.2"
+
+[[projects]]
+  name = "github.com/gorilla/mux"
+  packages = ["."]
+  revision = "c5c6c98bc25355028a63748a498942a6398ccd22"
+  version = "v1.7.1"
+
+[[projects]]
   name = "github.com/hashicorp/hcl"
   packages = [".","hcl/ast","hcl/parser","hcl/printer","hcl/scanner","hcl/strconv","hcl/token","json/parser","json/scanner","json/token"]
   revision = "8cb6e5b959231cc1119e43259c4a608f9c51a241"
@@ -48,6 +60,12 @@
   packages = ["."]
   revision = "63909f0a90ab0f36909e8e044e46ace10cf13ba2"
   version = "v1.3.0"
+
+[[projects]]
+  name = "github.com/sirupsen/logrus"
+  packages = ["."]
+  revision = "dae0fa8d5b0c810a8ab733fbd5510c7cae84eca4"
+  version = "v1.4.0"
 
 [[projects]]
   name = "github.com/spf13/afero"
@@ -87,8 +105,14 @@
 
 [[projects]]
   branch = "master"
+  name = "golang.org/x/crypto"
+  packages = ["ssh/terminal"]
+  revision = "38d8ce5564a5b71b2e3a00553993f1b9a7ae852f"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/sys"
-  packages = ["unix"]
+  packages = ["unix","windows"]
   revision = "4b34438f7a67ee5f45cc6132e2bad873a20324e9"
 
 [[projects]]
@@ -106,6 +130,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "859794252e2d9c5b0959815b55f7f0d40de1f43bb3d3e08de409e1eb6b2107a1"
+  inputs-digest = "41b1d29f884188fb8961463cafc1ae63095aa81f6e030bcecbb0658137318acf"
   solver-name = "gps-cdcl"
   solver-version = 1

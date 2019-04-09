@@ -5,20 +5,17 @@ import (
         "os"
 
         "github.com/spf13/cobra"
+        "github.com/spf13/viper"
 )
 
 var cfgFile string
+var config *viper.Viper
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
         Use:   "goCoupon",
-        Short: "A brief description of your application",
-        Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+        Short: "Go coupon is an API for coupons and promotional codes management",
+        Long: `Just check ReadMe if you need a longer description (assuming there is one)`,
         // Uncomment the following line if your bare application
         // has an action associated with it:
         //      Run: func(cmd *cobra.Command, args []string) { },
@@ -35,7 +32,8 @@ func Execute() {
 
 func init() {
         cobra.OnInitialize()
-
+        config = viper.New()
+      
         // Cobra also supports local flags, which will only run
         // when this action is called directly.
         // rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")

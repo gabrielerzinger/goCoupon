@@ -17,7 +17,7 @@ type App struct {
 	Config  *viper.Viper
 	Router  *mux.Router
 	Server  *http.Server
-	Storage *repositories.Storage
+	Storage repositories.Repository
 }
 
 // NewApp creates a new app
@@ -46,11 +46,8 @@ func (a *App) configureServer() {
 }
 
 func (a *App) configureStorage() error {
-	if a.Storage != nil && a.Storage.Redis != nil {
-		return nil
-	}
 	a.Logger.Info("Connecting to redis url:", a.Config.GetString("redis.url"))
-	return a.Storage.ConnectRedis(a.Config)
+	return a.Storage.Connect(a.Config)
 }
 
 func (a *App) getRouter() *mux.Router {

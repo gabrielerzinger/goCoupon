@@ -19,7 +19,7 @@ func NewHealthcheckHandler(a *App) *HealthcheckHandler {
 
 // ServeHTTP method
 func (s *HealthcheckHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	pong, err := s.App.Storage.Redis.Ping().Result()
+	err := s.App.Storage.Ping()
 
 	if err != nil {
 		w.WriteHeader(500)
@@ -28,5 +28,5 @@ func (s *HealthcheckHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(200)
-	w.Write([]byte(pong))
+	w.Write([]byte("Alive"))
 }

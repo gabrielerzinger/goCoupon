@@ -1,12 +1,23 @@
 package repositories
 
 import (
+	"github.com/gabrielerzinger/goCoupon/models"
 	"github.com/go-redis/redis"
 	"github.com/spf13/viper"
 )
 
-// ConnectRedis connects to redis db
-func (s *Storage) ConnectRedis(config *viper.Viper) error {
+// Storage struct
+type Storage struct {
+	Redis *redis.Client
+}
+
+// NewStorage ctor
+func NewStorage() *Storage {
+	return &Storage{}
+}
+
+// Connect connects to redis db
+func (s *Storage) Connect(config *viper.Viper) error {
 	client := redis.NewClient(&redis.Options{
 		Addr:     config.GetString("redis.url"),
 		Password: config.GetString("redis.password"),
@@ -23,3 +34,15 @@ func (s *Storage) ConnectRedis(config *viper.Viper) error {
 
 	return err
 }
+
+// Find impl
+func (s *Storage) Find(name string) (*models.Coupon, error) { return nil, nil }
+
+// Update impl
+func (s *Storage) Update(name string, coupon *models.Coupon) error { return nil }
+
+// Store impl
+func (s *Storage) Store(name string, coupon *models.Coupon) error { return nil }
+
+// Ping impl
+func (s *Storage) Ping() error { return nil }

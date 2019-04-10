@@ -7,17 +7,17 @@ import (
 )
 
 // Storage struct
-type Storage struct {
+type RedisStorage struct {
 	Redis *redis.Client
 }
 
 // NewStorage ctor
-func NewStorage() *Storage {
-	return &Storage{}
+func NewStorage() *RedisStorage {
+	return &RedisStorage{}
 }
 
 // Connect connects to redis db
-func (s *Storage) Connect(config *viper.Viper) error {
+func (s *RedisStorage) Connect(config *viper.Viper) error {
 	client := redis.NewClient(&redis.Options{
 		Addr:     config.GetString("redis.url"),
 		Password: config.GetString("redis.password"),
@@ -36,13 +36,17 @@ func (s *Storage) Connect(config *viper.Viper) error {
 }
 
 // Find impl
-func (s *Storage) Find(name string) (*models.Coupon, error) { return nil, nil }
+func (s *RedisStorage) Find(name string) (*models.Coupon, error) { return nil, nil }
 
 // Update impl
-func (s *Storage) Update(name string, coupon *models.Coupon) error { return nil }
+func (s *RedisStorage) Update(name string, coupon *models.Coupon) error { return nil }
 
 // Store impl
-func (s *Storage) Store(name string, coupon *models.Coupon) error { return nil }
+func (s *RedisStorage) Store(name string, coupon *models.Coupon) error { return nil }
 
-// Ping impl
-func (s *Storage) Ping() error { return nil }
+// Ping implementation
+func (s *RedisStorage) Ping() error {
+	_, err := s.Redis.Ping().Result()
+
+	return err
+}

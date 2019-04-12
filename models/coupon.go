@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 /*
 	DiscountType must be either 'PERCENT', 'FIXED_VALUE'
 	Amount must be the discount amount [0,1] for PERCENt
@@ -8,8 +10,9 @@ package models
 
 // Coupon model
 type Coupon struct {
-	DiscountType string  `json:"type"`
-	Amount       float32 `json:"amount"`
-	CartPrice    float32 `json:"cartPrice"`
-	TimesUsed    int32   `json:"timesUsed"`
+	DiscountType   string  `json:"type"`
+	Amount         float64 `json:"amount"`
+	CartPrice      float64 `json:"cartPrice"`
+	TimesUsed      int64   `json:"timesUsed"`
+	ExpirationTime time.Time
 }

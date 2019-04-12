@@ -1,18 +1,21 @@
 package repositories
 
 import (
+	"strconv"
+	"time"
+
 	"github.com/gabrielerzinger/goCoupon/models"
 	"github.com/go-redis/redis"
 	"github.com/spf13/viper"
 )
 
-// Storage struct
+// RedisStorage struct
 type RedisStorage struct {
 	Redis *redis.Client
 }
 
-// NewStorage ctor
-func NewStorage() *RedisStorage {
+// NewRedisStorage ctor
+func NewRedisStorage() *RedisStorage {
 	return &RedisStorage{}
 }
 
@@ -35,14 +38,47 @@ func (s *RedisStorage) Connect(config *viper.Viper) error {
 	return err
 }
 
-// Find impl
-func (s *RedisStorage) Find(name string) (*models.Coupon, error) { return nil, nil }
+// Find a coupon given its name
+func (s *RedisStorage) Find(name string) (*models.Coupon, error) {
+	couponMap, err := s.Redis.HGetAll(name).Result()
+
+	if err != nil {
+		return nil, err
+	}
+
+	amount, _ := strconv.ParseFloat(couponMap["amount"], 64)
+	discountType := couponMap["type"]
+	cartPrice, _ := strconv.ParseFloat(couponMap["cartPrice"], 64)
+	used, _ := strconv.ParseInt(couponMap["used"], 10, 64)
+	expiration, _ := time.Parse("Mon Jan 2 15:04:05 -0700 MST 2006", couponMap["expiration"])
+
+	coupon := &models.Coupon{
+		Amount:         amount,
+		DiscountType:   discountType,
+		CartPrice:      cartPrice,
+		ExpirationTime: expiration,
+		TimesUsed:      used,
+	}
+	return coupon, nil
+}
 
 // Update impl
 func (s *RedisStorage) Update(name string, coupon *models.Coupon) error { return nil }
 
-// Store impl
-func (s *RedisStorage) Store(name string, coupon *models.Coupon) error { return nil }
+// Store saves given coupon to Redis
+func (s *RedisStorage) Store(name string, coupon *models.Coupon) error {
+	couponMap := map[string]interface{}{
+		"amount":     coupon.Amount,
+		"type":       coupon.DiscountType,
+		"cartPrice":  coupon.CartPrice,
+		"used":       coupon.TimesUsed,
+		"expiration": coupon.ExpirationTime,
+	}
+
+	_, err := s.Redis.HMSet(name, couponMap).Result()
+
+	return err
+}
 
 // Ping implementation
 func (s *RedisStorage) Ping() error {

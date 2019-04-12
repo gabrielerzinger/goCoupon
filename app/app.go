@@ -33,7 +33,7 @@ func NewApp(host string, port int, config *viper.Viper, log logrus.FieldLogger) 
 
 func (a *App) configureApp() {
 	a.Router = a.getRouter()
-	a.Storage = repositories.NewStorage()
+	a.Storage = repositories.NewRedisStorage()
 	a.configureStorage()
 	a.configureServer()
 }

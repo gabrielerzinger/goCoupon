@@ -1,4 +1,7 @@
-# goCoupon
+# goCoupon [![Build Status][1]][2]
+
+[1]: https://travis-ci.org/gabrielerzinger/goCoupon.svg?branch=master
+[2]: https://travis-ci.org/gabrielerzinger/goCoupon
 
 A Go API, backed by Redis, to manage coupons, promotional codes and referrals..
 

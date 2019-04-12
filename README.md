@@ -1,6 +1,6 @@
 # goCoupon
 
-A Go API to manage coupons and promotional codes.
+A Go API, backed by Redis, to manage coupons, promotional codes and referrals..
 
 ## Getting started
 
@@ -14,5 +14,7 @@ $ ./bin/goCoupon
 ```
 
 ### Testing
+
+Need to add tests.
 
 ``make test``

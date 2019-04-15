@@ -11,5 +11,6 @@ type Repository interface {
 	Find(name string) (*models.Coupon, error)
 	Update(name string, coupon *models.Coupon) error
 	Store(name string, coupon *models.Coupon) error
+	Remove(name string) error
 	Ping() error
 }

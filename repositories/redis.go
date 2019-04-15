@@ -63,7 +63,9 @@ func (s *RedisStorage) Find(name string) (*models.Coupon, error) {
 }
 
 // Update impl
-func (s *RedisStorage) Update(name string, coupon *models.Coupon) error { return nil }
+func (s *RedisStorage) Update(name string, coupon *models.Coupon) error {
+	return s.Store(name, coupon)
+}
 
 // Store saves given coupon to Redis
 func (s *RedisStorage) Store(name string, coupon *models.Coupon) error {
@@ -76,6 +78,13 @@ func (s *RedisStorage) Store(name string, coupon *models.Coupon) error {
 	}
 
 	_, err := s.Redis.HMSet(name, couponMap).Result()
+
+	return err
+}
+
+// Remove a coupon from the storage
+func (s *RedisStorage) Remove(name string) error {
+	_, err := s.Redis.HDel(name).Result()
 
 	return err
 }

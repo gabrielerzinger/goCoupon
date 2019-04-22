@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gabrielerzinger/goCoupon/repositories"
+	"github.com/gabrielerzinger/goCoupon/usecases"
 	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -18,6 +19,7 @@ type App struct {
 	Router  *mux.Router
 	Server  *http.Server
 	Storage repositories.Repository
+	Usecase usecases.Coupon
 }
 
 // NewApp creates a new app
@@ -34,6 +36,7 @@ func NewApp(host string, port int, config *viper.Viper, log logrus.FieldLogger) 
 func (a *App) configureApp() {
 	a.Router = a.getRouter()
 	a.Storage = repositories.NewRedisStorage()
+	a.Usecase = usecases.NewUsecase(a.Storage)
 	a.configureStorage()
 	a.configureServer()
 }
@@ -53,6 +56,7 @@ func (a *App) configureStorage() error {
 func (a *App) getRouter() *mux.Router {
 	router := mux.NewRouter()
 	router.Handle("/healthcheck", NewHealthcheckHandler(a)).Methods("GET")
+	router.Handle("/coupon", NewFindHandler(a)).Methods("GET")
 	return router
 }
 

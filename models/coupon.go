@@ -16,3 +16,11 @@ type Coupon struct {
 	TimesUsed      int64   `json:"timesUsed"`
 	ExpirationTime time.Time
 }
+
+// CouponRequest for storage
+type CouponRequest struct {
+	Name         string  `json:"name"`
+	DiscountType string  `json:"type"`
+	Amount       float64 `json:"amount"`
+	CartPrice    float64 `json:"cartPrice"`
+}

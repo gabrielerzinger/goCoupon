@@ -57,6 +57,7 @@ func (a *App) getRouter() *mux.Router {
 	router := mux.NewRouter()
 	router.Handle("/healthcheck", NewHealthcheckHandler(a)).Methods("GET")
 	router.Handle("/coupon", NewFindHandler(a)).Methods("GET")
+	router.Handle("/coupon", NewSaveHandler(a)).Methods("POST")
 	return router
 }
 

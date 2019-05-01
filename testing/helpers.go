@@ -11,7 +11,6 @@ import (
 
 // GetLogger gets a new logger instance
 func GetLogger(t *testing.T) logrus.FieldLogger {
-	t.Helper()
 	return logrus.New()
 }
 

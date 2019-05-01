@@ -1,7 +1,6 @@
 package app
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 )
@@ -9,12 +8,6 @@ import (
 //Write to response with status code
 func Write(w http.ResponseWriter, status int, text string) {
 	WriteBytes(w, status, []byte(text))
-}
-
-//WriteJSON to the response and with the status code
-func WriteJSON(w http.ResponseWriter, status int, body map[string]interface{}) {
-	bts, _ := json.Marshal(body)
-	WriteBytes(w, status, bts)
 }
 
 //WriteBytes to the response and with the status code
@@ -28,12 +21,6 @@ func WriteBytes(w http.ResponseWriter, status int, text []byte) {
 func WriteError(w http.ResponseWriter, status int, errorMsg string, err error) {
 	errMsg := fmt.Sprintf(`{"success":false, "message":"%s", "reason": "%s"}`, errorMsg, err.Error())
 	Write(w, status, errMsg)
-}
-
-// WriteErrorWithJSON sends a response with status error
-func WriteErrorWithJSON(w http.ResponseWriter, status int, res []byte, msg string) {
-	retMsg := fmt.Sprintf(`{"success" : false, "response":%s}`, res)
-	Write(w, status, retMsg)
 }
 
 // WriteSuccessWithJSON sends response with statusOK to request

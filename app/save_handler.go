@@ -2,6 +2,7 @@ package app
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"time"
 
@@ -26,7 +27,7 @@ func (s *SaveHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var request models.CouponRequest
 
 	if r.Body == nil {
-		Write(w, http.StatusBadRequest, "request body shouldnt be empty")
+		WriteError(w, http.StatusBadRequest, "request body shouldnt be empty", errors.New("Empty Body"))
 		return
 	}
 

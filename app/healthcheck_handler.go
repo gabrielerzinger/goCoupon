@@ -22,8 +22,7 @@ func (s *HealthcheckHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	err := s.App.Storage.Ping()
 
 	if err != nil {
-		w.WriteHeader(500)
-		w.Write([]byte("Failed to stablish connection"))
+		WriteError(w, http.StatusInternalServerError, "Failed to stablish connection", err)
 		return
 	}
 

@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	"errors"
 	"time"
 
 	"github.com/gabrielerzinger/goCoupon/repositories"
@@ -27,6 +28,12 @@ func NewUsecase(newRepo repositories.Repository) *coupon {
 
 // CreateCoupon creates a new Coupon
 func (c coupon) CreateCoupon(name, discountType string, amount, cartPrice float64, eTime time.Time) error {
+	coupon, err := c.FindCoupon(name)
+
+	if err == nil && coupon.DiscountType != "" {
+		return errors.New("Coupon already exists")
+	}
+
 	newCoupon := &models.Coupon{DiscountType: discountType, Amount: amount, CartPrice: cartPrice, TimesUsed: 0, ExpirationTime: eTime}
 	return c.repo.Store(name, newCoupon)
 }

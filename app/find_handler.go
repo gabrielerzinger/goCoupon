@@ -2,6 +2,7 @@ package app
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 )
 
@@ -24,7 +25,7 @@ func (s *FindHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	couponName := query.Get("name")
 
 	if couponName == "" {
-		Write(w, http.StatusBadRequest, "Missed coupon name param")
+		WriteError(w, http.StatusBadRequest, "Missed coupon name param", errors.New("Bad request"))
 		return
 	}
 
@@ -33,7 +34,7 @@ func (s *FindHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	coupon, err := s.App.Usecase.FindCoupon(couponName)
 
 	if err != nil || coupon.DiscountType == "" {
-		WriteBytes(w, http.StatusNotFound, []byte("Coupon not found"))
+		WriteError(w, http.StatusNotFound, "Coupon not found", errors.New("Coupon doesn't exist"))
 		return
 	}
 

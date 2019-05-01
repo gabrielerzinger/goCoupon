@@ -57,5 +57,7 @@ clean:
 	@test ! -e bin/${BIN_NAME} || rm bin/${BIN_NAME}
 
 test:
+	@mkdir -p docker_data && docker-compose up -d redis
 	go test ./...
+	@docker-compose down
 

@@ -10,6 +10,7 @@ import (
 	"github.com/gabrielerzinger/goCoupon/app"
 	"github.com/gabrielerzinger/goCoupon/models"
 	helpers "github.com/gabrielerzinger/goCoupon/testing"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -47,7 +48,7 @@ func TestSaveHandler(t *testing.T) {
 		"test_save_succes": {
 			request: func() *http.Request {
 				body := &models.CouponRequest{
-					Name:         "Name",
+					Name:         uuid.New().String(),
 					DiscountType: "VALUE",
 					Amount:       123,
 					CartPrice:    500,

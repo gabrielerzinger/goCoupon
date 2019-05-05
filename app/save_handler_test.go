@@ -48,10 +48,11 @@ func TestSaveHandler(t *testing.T) {
 		"test_save_succes": {
 			request: func() *http.Request {
 				body := &models.CouponRequest{
-					Name:         uuid.New().String(),
-					DiscountType: "VALUE",
-					Amount:       123,
-					CartPrice:    500,
+					Name:           uuid.New().String(),
+					DiscountType:   "VALUE",
+					Amount:         123,
+					CartPrice:      500,
+					ExpirationTime: "2222-04-12T23:20:50.52Z",
 				}
 				bts, _ := json.Marshal(body)
 

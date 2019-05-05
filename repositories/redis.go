@@ -50,7 +50,7 @@ func (s *RedisStorage) Find(name string) (*models.Coupon, error) {
 	discountType := couponMap["type"]
 	cartPrice, _ := strconv.ParseFloat(couponMap["cartPrice"], 64)
 	used, _ := strconv.ParseInt(couponMap["used"], 10, 64)
-	expiration, _ := time.Parse("Mon Jan 2 15:04:05 -0700 MST 2006", couponMap["expiration"])
+	expiration, _ := time.Parse(time.RFC3339, couponMap["expiration"])
 
 	coupon := &models.Coupon{
 		Amount:         amount,
@@ -69,15 +69,28 @@ func (s *RedisStorage) Update(name string, coupon *models.Coupon) error {
 
 // Store saves given coupon to Redis
 func (s *RedisStorage) Store(name string, coupon *models.Coupon) error {
+
+	expirationTime, err := coupon.ExpirationTime.MarshalText()
+
+	if err != nil {
+		return err
+	}
+
 	couponMap := map[string]interface{}{
 		"amount":     coupon.Amount,
 		"type":       coupon.DiscountType,
 		"cartPrice":  coupon.CartPrice,
 		"used":       coupon.TimesUsed,
-		"expiration": coupon.ExpirationTime,
+		"expiration": expirationTime,
 	}
 
-	_, err := s.Redis.HMSet(name, couponMap).Result()
+	_, err = s.Redis.HMSet(name, couponMap).Result()
+
+	if err != nil {
+		return err
+	}
+
+	_ = s.Redis.PExpireAt(name, coupon.ExpirationTime)
 
 	return err
 }

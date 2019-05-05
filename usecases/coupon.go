@@ -11,7 +11,7 @@ import (
 
 // Coupon usecases interface
 type Coupon interface {
-	CreateCoupon(string, string, float64, float64, time.Time) error
+	CreateCoupon(string, string, float64, float64, string) error
 	FindCoupon(string) (*models.Coupon, error)
 	RemoveCoupon(string) error
 	UpdateCoupon(string, *models.Coupon) error
@@ -27,11 +27,17 @@ func NewUsecase(newRepo repositories.Repository) *coupon {
 }
 
 // CreateCoupon creates a new Coupon
-func (c coupon) CreateCoupon(name, discountType string, amount, cartPrice float64, eTime time.Time) error {
+func (c coupon) CreateCoupon(name, discountType string, amount, cartPrice float64, expTime string) error {
 	coupon, err := c.FindCoupon(name)
 
 	if err == nil && coupon.DiscountType != "" {
 		return errors.New("Coupon already exists")
+	}
+
+	eTime, err := time.Parse(time.RFC3339, expTime)
+
+	if err != nil {
+		return err
 	}
 
 	newCoupon := &models.Coupon{DiscountType: discountType, Amount: amount, CartPrice: cartPrice, TimesUsed: 0, ExpirationTime: eTime}

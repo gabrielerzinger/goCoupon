@@ -19,8 +19,9 @@ type Coupon struct {
 
 // CouponRequest for storage
 type CouponRequest struct {
-	Name         string  `json:"name"`
-	DiscountType string  `json:"type"`
-	Amount       float64 `json:"amount"`
-	CartPrice    float64 `json:"cartPrice"`
+	Name           string  `json:"name"`
+	DiscountType   string  `json:"type"`
+	Amount         float64 `json:"amount"`
+	CartPrice      float64 `json:"cartPrice"`
+	ExpirationTime string  `json:"expirationTime"`
 }

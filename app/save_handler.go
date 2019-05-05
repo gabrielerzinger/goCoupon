@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"time"
 
 	"github.com/gabrielerzinger/goCoupon/models"
 )
@@ -37,7 +36,7 @@ func (s *SaveHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err := s.App.Usecase.CreateCoupon(request.Name, request.DiscountType,
-		request.Amount, request.CartPrice, time.Now())
+		request.Amount, request.CartPrice, request.ExpirationTime)
 
 	if err != nil {
 		WriteError(w, http.StatusInternalServerError, "Failed to save new coupon", err)
@@ -45,5 +44,5 @@ func (s *SaveHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	s.App.Logger.Info("Saved new coupon")
-	Write(w, http.StatusOK, "Saved new coupon succesfully")
+	WriteSuccessWithJSON(w, http.StatusOK, []byte("Saved new coupon"), "saved")
 }

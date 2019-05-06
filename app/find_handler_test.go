@@ -19,10 +19,11 @@ func TestFindHandler(t *testing.T) {
 	saveHandler := app.NewSaveHandler(appTest)
 
 	body := &models.CouponRequest{
-		Name:         "ARABELA",
-		DiscountType: "VALUE",
-		Amount:       123,
-		CartPrice:    500,
+		Name:           "ARABELLA",
+		DiscountType:   "VALUE",
+		Amount:         123,
+		CartPrice:      500,
+		ExpirationTime: "2222-04-12T23:20:50.52Z",
 	}
 	bts, _ := json.Marshal(body)
 
@@ -61,7 +62,7 @@ func TestFindHandler(t *testing.T) {
 		},
 		"test_found_coupon": {
 			request: func() *http.Request {
-				request, err := http.NewRequest("GET", "/coupon?name=ARABELA", nil)
+				request, err := http.NewRequest("GET", "/coupon?name=ARABELLA", nil)
 				assert.NoError(t, err)
 				return request
 			}(),

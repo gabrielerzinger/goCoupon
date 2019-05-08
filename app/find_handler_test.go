@@ -39,7 +39,7 @@ func TestFindHandler(t *testing.T) {
 	}{
 		"test_get_coupon_404": {
 			request: func() *http.Request {
-				request, err := http.NewRequest("GET", "/coupon?name=ARABELLA", nil)
+				request, err := http.NewRequest("GET", "/coupon?name=CORNERSTONE", nil)
 				assert.NoError(t, err)
 				return request
 			}(),
